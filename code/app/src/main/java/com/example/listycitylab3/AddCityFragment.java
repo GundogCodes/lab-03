@@ -38,6 +38,7 @@ public class AddCityFragment extends DialogFragment {
         args.putSerializable(argCity, (Serializable) city); // "compressing" city object
         args.putInt(argPos, pos);
         args.putBoolean(isEditArg, true);
+        frag.setArguments(args);
         return frag;
     }
     // constructor for editing with no params
@@ -81,16 +82,32 @@ public class AddCityFragment extends DialogFragment {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_add_city, null);
         EditText editCityName = view.findViewById(R.id.edit_text_city_text);
         EditText editProvinceName = view.findViewById(R.id.edit_text_province_text);
+        // creating the form box
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        
+        // if is edit mode and city exits
+        if (iseditMode && currentCity != null) {
+            builder.setTitle("Edit City");
+            editCityName.setText(currentCity.getName());
+            editProvinceName.setText(currentCity.getProvince());
+        } else {
+            builder.setTitle("Add a city");
+        }
+
         return builder
+                // return view with conditional
                 .setView(view)
-                .setTitle("Add a city")
                 .setNegativeButton("Cancel", null)
-                .setPositiveButton("Add", (dialog, which) -> {
+                .setPositiveButton(iseditMode? "Update" : "Add", (dialog, which) -> {
                     String cityName = editCityName.getText().toString();
                     String provinceName = editProvinceName.getText().toString();
-                    listener.addCity(new City(cityName, provinceName));
+                    if (!cityName.isEmpty() && !provinceName.isEmpty()) {
+                        City city = new City(cityName, provinceName);
+                        if (iseditMode) {
+                            listener.editCity(city, editPos);
+                        } else {
+                            listener.addCity(city);
+                        }
+                    }
                 })
                 .create();
     }

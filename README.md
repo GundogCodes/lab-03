@@ -2,6 +2,9 @@
 
 ## References and Resources
 
+Student: `Gunish Sharma`
+ccid: `gunish`
+
 List any resources used here, or simply put `N/A` if not applicable.
 
 ## Verbal Collaboration

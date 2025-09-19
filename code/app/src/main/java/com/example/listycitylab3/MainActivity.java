@@ -13,12 +13,18 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements
         AddCityFragment.AddCityDialogListener {
+
     private ArrayList<City> dataList;
     private ListView cityList;
     private CityArrayAdapter cityAdapter;
     @Override
     public void addCity(City city) {
         cityAdapter.add(city);
+        cityAdapter.notifyDataSetChanged();
+    }
+    @Override
+    public void editCity(City city, int position) {
+        dataList.set(position, city);
         cityAdapter.notifyDataSetChanged();
     }
 
@@ -47,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements
         });
 
         cityList.setOnItemClickListener((adapterView, view, positon, l) -> {
+            City editingCity = dataList.get(positon); // position of click on list
+            AddCityFragment editFragment = AddCityFragment.newInstance(editingCity, positon);
+            editFragment.show(getSupportFragmentManager(), "Edit City");
 
         });
     }
