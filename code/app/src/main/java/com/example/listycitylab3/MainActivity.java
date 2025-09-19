@@ -45,5 +45,9 @@ public class MainActivity extends AppCompatActivity implements
         fab.setOnClickListener(v -> {
             new AddCityFragment().show(getSupportFragmentManager(), "Add City");
         });
+
+        cityList.setOnItemClickListener((adapterView, view, positon, l) -> {
+
+        });
     }
 }
